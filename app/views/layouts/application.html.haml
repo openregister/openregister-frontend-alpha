@@ -1,10 +1,24 @@
-!!!
-%html
-  %head
-    = tag :meta, content: 'text/html; charset=UTF-8', "http-equiv" => "Content-Type"
-    = csrf_meta_tags
-    %title Registers Frontend Alpha
-    = stylesheet_link_tag 'application', media: 'all'
-  %body
-    = yield
-    = javascript_include_tag 'application'
+- content_for :page_title, ' - GOV.UK Registers'
+
+- content_for :inside_header do
+  %strong.phase-badge Alpha
+
+- content_for :global_header_text, 'GOV.UK <span id="product-name">Registers</span>'.html_safe
+
+- content_for :homepage_url, "/"
+
+- content_for :header_class, "with-proposition"
+
+- content_for :head do
+  = stylesheet_link_tag 'application'
+  = csrf_meta_tags
+
+- content_for :content do
+  %main#content{role:'main', tabindex: "-1"}
+    = content_for?(:main) ? yield(:main) : yield
+
+- content_for :body_end do
+  = javascript_include_tag 'application'
+  = yield(:javascript)
+
+= render file: 'layouts/govuk_template'
