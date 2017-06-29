@@ -1,0 +1,25 @@
+= content_for :page_title, "Register"
+
+.breadcrumbs{"data-module" => "track-click"}
+  %ol
+    %li
+      = link_to "Service Toolkit", "https://www.gov.uk/service-toolkit", target: :blank
+    %li
+      = link_to "Registers", root_path
+    %li
+      #{prepare_register_name(params[:register])} register
+
+%header.page-header
+  %h1.heading-large #{prepare_register_name(params[:register])} register
+
+%table
+  %thead
+    %tr
+      - @register_fields.each do |field|
+        %th= field
+
+  %tbody
+    - @register_records.each do |record|
+      %tr
+        - @register_fields.each do |field|
+          %td= record.instance_variable_get('@' + field.gsub('-', '_'))
