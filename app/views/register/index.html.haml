@@ -10,7 +10,52 @@
       #{prepare_register_name(params[:register])} register
 
 %header.page-header
-  %h1.heading-large #{prepare_register_name(params[:register])} register
+  .grid-row
+    .column-two-thirds
+      %h1.heading-xlarge.register-name #{prepare_register_name(params[:register])} register
+
+      %p= OpenRegister.record('register', params[:register], :beta).text
+
+      %details{:role => "group"}
+        %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+          %span.summary Use this list to build your service
+        #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+          %p This list is a register. Using registers to build your service means you and your service users will only ever work with one reliable and current source of data.
+
+          %p
+            = link_to "Using registers", "https://registers.cloudapps.digital/using-registers"
+            %br
+            = link_to "Technical documentation", "https://registers-docs.cloudapps.digital/#technical-user-documentation-for-registers"
+
+      %details{:role => "group"}
+        %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+          %span.summary What are registers?
+        #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+          %p Registers are lists of information, each register is the most reliable list of its kind.
+
+          %p Some registers can be combined with other registers to provide more information.
+
+          %p
+            = link_to "Using registers", "https://registers.cloudapps.digital/using-registers", target: :blank
+            %br
+            = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
+
+    .column-one-third.about
+      %h2.heading-small Managed by
+      - @authority = OpenRegister.record('register', params[:register], :beta).registry
+
+      %div{class: "govuk-organisation-logo #{@authority.parameterize}"}
+        %div{class: "logo-container #{crest_class_name(@authority.parameterize)}"}
+          %span= prepare_register_name(@authority)
+
+      %h2.heading-small Learn more
+      %ul
+        %li
+          = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
+        %li
+          = link_to "Create a register", "https://www.gov.uk/guidance/creating-a-register", target: :blank
+        %li
+          = link_to "Contact the team", "https://registers.cloudapps.digital/support", target: :blank
 
 %table
   %thead

@@ -1,10 +1,12 @@
 @import 'govuk-elements';
 @import 'header-tweaks';
+@import 'govuk-organisation-logo';
 
 // Override table font size
 table td,
 table th {
   font-size: 16px;
+  padding: 15px 40px 15px 0;
 }
 
 // Override purple colour
@@ -33,5 +35,47 @@ a:visited {
       font-size: 24px;
       line-height: 1.25;
     }
+  }
+}
+
+dl {
+  margin-bottom: 20px;
+  overflow: hidden;
+
+  dt {
+    clear: left;
+    float: left;
+    font-weight: bold;
+    max-width: 150px;
+    padding-bottom: 0.5rem;
+    padding-right: 1%;
+    width: 20%;
+  }
+
+  dd {
+    float: left;
+    margin: 0;
+    max-width: 480px;
+    padding-bottom: 0.5rem;
+    width: 78%;
+
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: 20px;
+}
+
+.register-name {
+  margin: 0 0 20px;
+}
+
+.search-wrapper {
+  border-top: 2px solid $grey-3;
+  margin: 40px 0 20px 0;
+  padding-top: 40px;
+
+  .heading-large {
+    margin-top: 0;
   }
 }
