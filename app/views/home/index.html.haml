@@ -1,3 +1,8 @@
 - content_for :page_title, 'Home'
 
-%h1.heading-large Home
+%h1.heading-large Find a register
+
+%ul.browse-list
+  - @registers.each do |register|
+    %li.browse-list__item
+      = link_to prepare_register_name(register.key), register.key, class: 'browse-list__link'
