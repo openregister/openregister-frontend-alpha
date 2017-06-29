@@ -1,8 +1,5 @@
 - content_for :page_title, ' - GOV.UK Registers'
 
-- content_for :inside_header do
-  %strong.phase-badge Alpha
-
 - content_for :global_header_text, 'GOV.UK <span id="product-name">Registers</span>'.html_safe
 
 - content_for :homepage_url, "/"
@@ -17,7 +14,7 @@
   %main#content{role:'main', tabindex: "-1"}
     .phase-banner
       %p
-        %strong.phase-tag ALPHA
+        %strong.phase-tag BETA
         %span This is a new service – your #{link_to 'feedback', '#'} will help us to improve it.
     = content_for?(:main) ? yield(:main) : yield
 
