@@ -1,0 +1,6 @@
+---
+applications:
+- name: openregisters-frontend-alpha
+  buildpack: ruby_buildpack
+  instances: 2
+  memory: 256MB
