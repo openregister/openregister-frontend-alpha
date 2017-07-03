@@ -7,6 +7,10 @@ table td,
 table th {
   font-size: 16px;
   padding: 15px 40px 15px 0;
+
+ .unknown {
+  color: $grey-2;
+ }
 }
 
 // Override purple colour

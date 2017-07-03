@@ -121,7 +121,7 @@
     - @register_records.each do |record|
       %tr{class: "js-filter-item", "data-filter-terms" => "#{record[1]['item'][0]['name']}"}
         - @register_meta_data['register-record']['fields'].each do |item|
-          %td= record[1]['item'][0][item]
+          %td= record[1]['item'][0][item] || "<span class='unknown'>No data found</span>".html_safe
 
 = content_for :head do
   %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}
