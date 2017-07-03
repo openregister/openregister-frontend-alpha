@@ -10,11 +10,25 @@
       #{prepare_register_name(params[:register])} register
 
 %header.page-header
+
+  - if params[:phase] != 'beta'
+    .grid-row
+      .column-two-thirds
+        .panel.panel-border-wide.phase
+          %span.phase-tag In progress
+          %p This data is at an experimental stage and it’s not ready for use yet. #{link_to 'Contact the team', 'https://registers.cloudapps.digital/support', target: :blank} if you want to give us feedback.
+
   .grid-row
     .column-two-thirds
       %h1.heading-xlarge.register-name #{prepare_register_name(params[:register])} register
 
-      %p= OpenRegister.record('register', params[:register], :beta).text
+      %dl
+        %dt Updated on:
+        %dd= @register_meta_data['last-updated']
+        %dt Owner:
+        %dd= @register_meta_data['custodian']
+
+      %p= @register_meta_data['register-record']['text']
 
       %details{:role => "group"}
         %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -42,11 +56,9 @@
 
     .column-one-third.about
       %h2.heading-small Managed by
-      - @authority = OpenRegister.record('register', params[:register], :beta).registry
-
-      %div{class: "govuk-organisation-logo #{@authority.parameterize}"}
-        %div{class: "logo-container #{crest_class_name(@authority.parameterize)}"}
-          %span= prepare_register_name(@authority)
+      %div{class: "govuk-organisation-logo #{@register_meta_data['register-record']['registry']}"}
+        %div{class: "logo-container #{crest_class_name(@register_meta_data['register-record']['registry'].parameterize)}"}
+          %span= prepare_register_name(@register_meta_data['register-record']['registry'])
 
       %h2.heading-small Learn more
       %ul
@@ -57,14 +69,67 @@
         %li
           = link_to "Contact the team", "https://registers.cloudapps.digital/support", target: :blank
 
-%table
+.search-wrapper
+  .grid-row
+    .column-one-third.js-enabled
+      %div
+        %form
+          %fieldset
+            .form-group
+              %label{class: "form-label", for: "search"} Filter by
+              %select{name: "search", id: "search", class: "form-control"}
+                %option{value: 'all', selected: ''} All
+                %option{value: 'active'} Currently active
+                %option{value: 'expired'} Expired
+
+    .column-one-third.js-enabled
+      %div{class: "js-filter-list", "aria-hidden" => "true"}
+        %form.js-filter-form
+          %fieldset
+            .form-group
+              %label{class: "form-label", for: "search"} Search for a #{params[:register]}
+              %input{name: "search", id: "search", class: "form-control"}
+
+  %h2.heading-large
+    = @register_meta_data['total-records']
+    = prepare_register_name(params[:register]).pluralize(@register_meta_data['total-records'])
+
+  %details{:role => "group"}
+    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+      %span.summary Download this data
+    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+      \#TODO
+
+  %details{:role => "group"}
+    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+      %span.summary What are the table headers?
+    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+      %dl
+        - @register_meta_data['register-record']['fields'].each do |item|
+          - register_fields = @all_fields.select{ |field| field == item }
+          - register_fields.each do |field|
+            %dt= field[1]['key']
+            %dd= field[1]['item'][0]['text']
+
+%table.js-filter-block
   %thead
     %tr
-      - @register_fields.each do |field|
+      - @register_meta_data['register-record']['fields'].each do |field|
         %th= field
 
   %tbody
     - @register_records.each do |record|
-      %tr
-        - @register_fields.each do |field|
-          %td= record.instance_variable_get('@' + field.gsub('-', '_'))
+      %tr{class: "js-filter-item", "data-filter-terms" => "#{record[1]['item'][0]['name']}"}
+        - @register_meta_data['register-record']['fields'].each do |item|
+          %td= record[1]['item'][0][item]
+
+= content_for :head do
+  %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}
+  %script{src: "//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.14/js/jquery.tablesorter.min.js"}
+
+= content_for :javascript do
+  :javascript
+    jQuery(function($) {
+      GOVUK.filterListItems.init();
+      $(".js-filter-block").tablesorter({ sortList: [[1,0]] });
+    });

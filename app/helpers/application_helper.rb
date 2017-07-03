@@ -5,10 +5,6 @@ module ApplicationHelper
     end
   end
 
-  def get_register(register_name)
-    OpenRegister.register(register_name.downcase, :beta)
-  end
-
   def crest_class_name(authority)
     case authority
     when "home-office"
