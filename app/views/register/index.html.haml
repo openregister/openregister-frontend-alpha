@@ -24,7 +24,7 @@
 
       %dl
         %dt Updated on:
-        %dd= @register_meta_data['last-updated']
+        %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
         %dt Owner:
         %dd= @register_meta_data['custodian']
 
