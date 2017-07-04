@@ -1,0 +1,4 @@
+%tr{class: "js-filter-item", "data-filter-terms" => "#{record[1]['item'][0]['name']}"}
+  - @register_meta_data['register-record']['fields'].each do |item|
+    %td{class: item}
+      = record[1]['item'][0][item] || "<span class='unknown'>No data found</span>".html_safe
