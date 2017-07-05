@@ -76,11 +76,8 @@
         %form
           %fieldset
             .form-group
-              %label{class: "form-label", for: "search"} Filter by
-              %select{name: "search", id: "search", class: "form-control"}
-                %option{value: 'all', selected: ''} All
-                %option{value: 'active'} Currently active
-                %option{value: 'expired'} Expired
+              = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
+              = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
 
     .column-one-third.js-enabled
       %div{class: "js-filter-list", "aria-hidden" => "true"}
@@ -91,7 +88,7 @@
               %input{name: "search", id: "search", class: "form-control"}
 
   %h2.heading-large
-    = @register_meta_data['total-records']
+    = @records.count
     = prepare_register_name(params[:register]).pluralize(@register_meta_data['total-records'])
 
   %details{:role => "group"}
@@ -126,7 +123,24 @@
 
 = content_for :javascript do
   :javascript
+    function replaceQueryString(url, param, value) {
+      var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+      if (url.match(re))
+        return url.replace(re,'$1' + param + "=" + value + '$2');
+      else
+        return url + '&' + param + "=" + value;
+    }
+
     jQuery(function($) {
       GOVUK.filterListItems.init();
       $(".js-filter-block").tablesorter({ sortList: [[1,0]] });
+
+      $("#filter_results").change(function () {
+        if(document.location.href.includes('current')) {
+          var url = replaceQueryString(window.location.href, 'current', this.value);
+        } else {
+          var url = document.location.href + "&current=" + this.value;
+        }
+        document.location = url;
+      });
     });
