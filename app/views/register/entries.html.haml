@@ -1,0 +1,40 @@
+= content_for :page_title, "Update history"
+
+.grid-row
+  .column-one-third
+    %h1.heading-large Update history
+    %div{class: "js-filter-list", "aria-hidden" => "true"}
+      %form.js-filter-form
+        %fieldset
+          .form-group
+            %label{class: "form-label", for: "search"} Search for a #{params[:register]}
+            %input{name: "search", id: "search", class: "form-control"}
+
+%ul.entries.js-filter-block
+  - @records.each do |record|
+    - record.entries.each do |entry|
+      %li.entries__item.js-filter-item{"data-filter-terms" => entry.key}
+        %h3.heading-medium= entry.key
+        %table
+          %thead
+            %tr
+              %th Field
+              %th Old Value
+              %th New Value
+          %tbody
+            - @register_meta_data['register-record']['fields'].each do |field|
+              %tr
+                %td= field
+                %td
+                %td= OpenRegister.item(params[:register], entry.item_hash).instance_variable_get('@' + field.gsub('-', '_'))
+
+= content_for :head do
+  %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}
+
+= content_for :javascript do
+  :javascript
+    jQuery(function($) {
+      GOVUK.filterListItems.init();
+    });
+
+= console

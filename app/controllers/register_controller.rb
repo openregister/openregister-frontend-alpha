@@ -16,4 +16,14 @@ class RegisterController < ApplicationController
 
     @all_fields = HTTParty.get("https://field.register.gov.uk/records.json", headers: { 'Content-Type' => 'application/json' } )
   end
+
+  def entries
+    @register_meta_data = HTTParty.get("https://#{params[:register]}.beta.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )
+    @entries = OpenRegister.register(params[:register], :beta)._all_entries
+    @records = OpenRegister.register(params[:register], :beta)._all_records
+
+    @records.each do |record|
+      record.morph(entries: @entries.select{ |e| e.key == record.key })
+    end
+  end
 end

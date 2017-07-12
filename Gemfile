@@ -17,7 +17,7 @@ gem 'haml-rails'
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 gem 'govuk_elements_rails'
-gem 'openregister-ruby', git: 'https://github.com/openregister/openregister-ruby-client'
+gem 'openregister-ruby', git: 'https://github.com/openregister/openregister-ruby-client', branch: 'add-non-paginated-entries-method'
 gem 'httparty'
 
 group :development do
