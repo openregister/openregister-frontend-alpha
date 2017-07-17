@@ -2,6 +2,7 @@ class RegisterController < ApplicationController
 
   include HTTParty
   include ApplicationHelper
+  include RsfHelper
 
   def index
     @records = OpenRegister.register(params[:register], params[:phase].to_sym)._all_records
@@ -19,12 +20,6 @@ class RegisterController < ApplicationController
 
   def entries
     @register_meta_data = HTTParty.get("https://#{params[:register]}.beta.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )
-
-    register = OpenRegister.register(params[:register], :beta)
-
-    @entries = register._all_entries
-    @records = register._all_records
-
-    @records_with_entries = @records.map{ |record| {entries: @entries.select{ |e| e.key == record.key } }}
+    @entries_with_items = get_entries
   end
 end
