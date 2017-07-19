@@ -1,4 +1,11 @@
-module ApplicationHelper
+module RegistersHelper
+
+  def prepare_register_name(register_name)
+    unless register_name.nil?
+      register_name.gsub('-', ' ').split.map(&:capitalize) * ' '
+    end
+  end
+
   def crest_class_name(authority)
     case authority
     when "home-office"
@@ -21,6 +28,19 @@ module ApplicationHelper
       " "
     else
       "logo-with-crest crest-org"
+    end
+  end
+
+  def phase_label(phase)
+    case phase
+    when 'Beta'
+      'Ready to use'
+    when 'Alpha'
+      'Open for feedback'
+    when 'Discovery'
+      'Open for feedback'
+    when 'Backlog'
+      'In the backlog'
     end
   end
 end

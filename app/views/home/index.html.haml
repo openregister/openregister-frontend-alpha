@@ -7,20 +7,6 @@
     %li
       Registers
 
-%h1.heading-large Find a register
+%h1.heading-large Registers
 
-.grid-row
-  .column-one-half
-    %h3.heading-medium Beta
-    %ul.browse-list
-      - @beta_registers.each do |register|
-        %li.browse-list__item
-          = link_to prepare_register_name(register[0]), "#{register[0]}?phase=beta", class: 'browse-list__link'
-
-  .column-one-half
-    %h1.heading-medium Alpha
-
-    %ul.browse-list
-      - @alpha_registers.each do |register|
-        %li.browse-list__item
-          = link_to prepare_register_name(register[0]), "#{register[0]}?phase=alpha", class: 'browse-list__link'
+= link_to 'View all registers', registers_path

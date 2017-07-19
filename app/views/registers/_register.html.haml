@@ -1,0 +1,19 @@
+- @meta_data = OpenRegister.register(register.name.parameterize, register.phase.to_sym) unless register.phase == "Backlog"
+
+%tr{class: "js-filter-item", "data-filter-terms" => "#{register.name}"}
+  %th{"data-title" => index, }
+    %h4.heading-small= register.name
+    - if register.phase == 'Backlog'
+      %p= register.description
+    - else
+      %p= @meta_data.text
+  %td{"data-title" => "Phase: "}
+    = phase_label(register.phase)
+  %td{"data-title" => "Managed by: "}
+    %div{class: "govuk-organisation-logo #{register.authority.parameterize}"}
+      %div{class: "logo-container #{crest_class_name(register.authority.parameterize)}"}
+        %span= register.authority
+  %td{class: "links", "data-title" => "View more: "}
+    - unless register.phase == "Backlog"
+      = link_to "View register", "#{register.name.parameterize}?phase=#{register.phase.downcase}"
+    = link_to "View history", "https://registers.cloudapps.digital/registers/#{register.name.parameterize}", target: :blank

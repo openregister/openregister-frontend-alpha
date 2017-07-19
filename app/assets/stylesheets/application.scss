@@ -152,3 +152,297 @@ select.form-control {
     }
   }
 }
+
+// Register styles
+// ==========================================================================
+
+.register-block {
+  background: $grey-3;
+  margin-top: 20px;
+  min-height: 100px;
+  padding: 6px;
+
+  h3 {
+    margin: 4px 0 0 4px;
+  }
+}
+
+// Phase styles
+// ==========================================================================
+
+$phases: (beta, #f47738),
+         (alpha, #d53880),
+         (discovery, $discovery-colour),
+         (backlog, #2e358b);
+
+.register-status-table {
+  td,
+  th {
+    font-size: 16px;
+    max-width: 400px;
+    padding: 15px 40px 15px 0;
+    vertical-align: middle;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  tr {
+    width: 100%;
+  }
+
+  thead th {
+    font-weight: normal;
+
+    @include media(tablet) {
+      border-top: 2px solid $grey-3;
+
+      &:nth-of-type(1) {
+        width: 285px;
+      }
+
+      &:nth-of-type(2) {
+        width: 150px;
+      }
+
+      &:nth-of-type(3) {
+        width: 100px;
+      }
+
+      &:nth-of-type(4) {
+        width: 300px;
+      }
+    }
+  }
+
+  @include media(tablet) {
+    tbody {
+      th {
+        width: 300px;
+      }
+
+      td {
+        &:nth-of-type(1) {
+          width: 150px;
+        }
+
+        &:nth-of-type(2) {
+          width: 100px;
+        }
+
+        &:nth-of-type(3) {
+          width: 300px;
+        }
+      }
+    }
+  }
+
+  .links {
+    @include media(tablet) {
+      padding-right: 0;
+      text-align: right;
+    }
+
+    a {
+      display: inline-block;
+      font-size: 14px;
+
+      @include media(tablet) {
+        font-size: 16px;
+      }
+
+      &:nth-child(2) {
+        margin-left: 10px;
+
+        @include media(tablet) {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+.data {
+  margin-bottom: 40px;
+  padding-top: 20px;
+
+  a {
+    display: block;
+    text-decoration: none;
+  }
+}
+
+.status {
+  font-weight: bold;
+
+  &:before {
+    border: 6px solid $black;
+    border-radius: 100%;
+    content: '';
+    display: inline-block;
+    height: 0;
+    margin-right: 5px;
+    width: 0;
+  }
+
+  @each $phases, $colour in $phases {
+    &.#{$phases}:before {
+      border-color: $colour;
+    }
+  }
+}
+
+// Phase circle
+// ==========================================================================
+
+.related-container {
+  margin-top: 30px;
+}
+
+.phase-circle {
+  position: relative;
+  width: 40%;
+}
+
+.circle-label {
+  color: $page-colour;
+  font-weight: 700;
+  font-size: 24px;
+  left: 0px;
+  position: absolute;
+  margin: 0;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.circle {
+  background: $grey-1;
+  border-radius: 50% 50%;
+  color: $page-colour;
+  display: block;
+  height: 0;
+  margin: 0;
+  padding-top: 100%;
+  width: 100%;
+}
+
+.sort_link {
+  &.asc,
+  &.desc {
+    font-weight: 700;
+  }
+}
+
+.tag {
+  color: $white;
+  display: inline-block;
+  line-height: 1.6;
+  padding: 2px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  .heading-medium &,
+  .heading-small & {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  .phase-history & {
+    font-size: 20px;
+    margin-left: -10px;
+  }
+}
+
+.phase-history {
+  clear: both;
+  margin-top: 30px;
+}
+
+.phase-history-item {
+  border-left: 3px solid black;
+  margin-bottom: 0;
+  padding-left: 10px;
+  padding-bottom: 10px;
+
+  h3 {
+    margin: 0 0 0 -10px;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 10px 0 0;
+  }
+}
+
+@each $phases, $colour in $phases {
+  .background-#{$phases} {
+    background-color: $colour;
+  }
+
+  .border-#{$phases} {
+    border-color: $colour;
+  }
+
+  .txt-#{$phases} {
+    color: $colour;
+  }
+}
+
+.tick-list {
+  margin-left: 0;
+  padding-left: 0;
+
+  li {
+    font-size: 18px;
+    list-style-type: none;
+  }
+}
+
+@include media(tablet) {
+  .mq-small-only {
+    display: none;
+  }
+}
+
+.new_support {
+  margin-top: 40px;
+}
+
+.error-summary {
+  @include media(tablet) {
+    padding: 15px;
+  }
+}
+
+.error-summary-list {
+  margin: 0;
+}
+
+.form-hint {
+  width: 50%;
+}
+
+.form-group.error {
+  margin-right: 15px;
+  border-left: 4px solid $error-colour;
+  padding-left: 10px;
+
+  @include media(tablet) {
+    border-left: 5px solid $error-colour;
+    padding-left: 15px;
+  }
+
+  .form-control {
+    border: 4px solid $error-colour;
+  }
+
+  .error-message {
+    padding-bottom: 4px;
+  }
+}
+
