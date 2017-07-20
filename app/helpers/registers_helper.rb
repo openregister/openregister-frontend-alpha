@@ -38,7 +38,7 @@ module RegistersHelper
     when 'Alpha'
       'Open for feedback'
     when 'Discovery'
-      'Open for feedback'
+      'In the backlog'
     when 'Backlog'
       'In the backlog'
     end
