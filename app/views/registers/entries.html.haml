@@ -1,5 +1,19 @@
 = content_for :page_title, "Update history"
 
+.container
+  .breadcrumbs{"data-module" => "track-click"}
+    %ol
+      %li
+        = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
+      %li
+        = link_to "GOV.UK Registers", root_path
+      %li
+        = link_to "View registers", root_path
+      %li
+        = link_to "#{prepare_register_name(params[:register])} register", "/#{params[:register]}?phase=#{@register_meta_data['register-record']['phase']}"
+      %li.active
+        Entries
+
 %main.container{role:'main', tabindex: "-1"}
   .grid-row
     .column-one-third

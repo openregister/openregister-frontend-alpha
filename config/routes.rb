@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   resources :registers, except: [:show]
   get '/:register', to: 'registers#show'
-  get '/:register/entries', to: 'register#entries'
+  get '/:register/entries', to: 'registers#entries'
 end

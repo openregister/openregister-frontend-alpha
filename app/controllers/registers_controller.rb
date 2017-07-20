@@ -1,5 +1,6 @@
 class RegistersController < ApplicationController
   include HTTParty
+  include RsfHelper
 
   def index
     if params[:phase] == 'Ready to use'
@@ -9,6 +10,11 @@ class RegistersController < ApplicationController
     else
       @registers = Register.sort_by_phase_name_asc.by_name
     end
+  end
+
+  def entries
+    @register_meta_data = HTTParty.get("https://#{params[:register]}.beta.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )
+    @entries_with_items = get_entries
   end
 
   def show
@@ -68,4 +74,3 @@ class RegistersController < ApplicationController
     params.require(:register).permit(:name, :phase, :description, :authority)
   end
 end
-
