@@ -43,4 +43,12 @@ module RegistersHelper
       'In the backlog'
     end
   end
+
+  def beta_registers
+    meta_registers = %w(register datatype field)
+
+    OpenRegister.registers('https://register.register.gov.uk/')
+                .reject{ |r| meta_registers.include?(r.register) || r._records.empty?}
+                .sort_by(&:register)
+  end
 end
