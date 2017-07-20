@@ -1,36 +1,37 @@
 = content_for :page_title, "Update history"
 
-.grid-row
-  .column-one-third
-    %h1.heading-large Update history
-    %div{class: "js-filter-list", "aria-hidden" => "true"}
-      %form.js-filter-form
-        %fieldset
-          .form-group
-            %label{class: "form-label", for: "search"} Search for a #{params[:register]}
-            %input{name: "search", id: "search", class: "form-control"}
+%main.container{role:'main', tabindex: "-1"}
+  .grid-row
+    .column-one-third
+      %h1.heading-large Update history
+      %div{class: "js-filter-list", "aria-hidden" => "true"}
+        %form.js-filter-form
+          %fieldset
+            .form-group
+              %label{class: "form-label", for: "search"} Search for a #{params[:register]}
+              %input{name: "search", id: "search", class: "form-control"}
 
-%ul.entries.js-filter-block
-  - @entries_with_items.each do |entry|
-    %li.entries__item.js-filter-item{"data-filter-terms" => entry[:key]}
-      %h3.heading-medium= entry[:key]
-      %table
-        %thead
-          %tr
-            %th Field
-            %th Old Value
-            %th New Value
-        %tbody
-          - @register_meta_data['register-record']['fields'].each do |field|
+  %ul.entries.js-filter-block
+    - @entries_with_items.each do |entry|
+      %li.entries__item.js-filter-item{"data-filter-terms" => entry[:key]}
+        %h3.heading-medium= entry[:key]
+        %table
+          %thead
             %tr
-              %td= field
-              %td
-                - if entry[:previous_item]
-                  = entry[:previous_item][field] || "<span class='unknown'>No data found</span>".html_safe
-                - else
-                  = "<span class='unknown'>No data found</span>".html_safe
-              %td
-                = entry[:current_item][field] || "<span class='unknown'>No data found</span>".html_safe
+              %th Field
+              %th Old Value
+              %th New Value
+          %tbody
+            - @register_meta_data['register-record']['fields'].each do |field|
+              %tr
+                %td= field
+                %td
+                  - if entry[:previous_item]
+                    = entry[:previous_item][field] || "<span class='unknown'>No data found</span>".html_safe
+                  - else
+                    = "<span class='unknown'>No data found</span>".html_safe
+                %td
+                  = entry[:current_item][field] || "<span class='unknown'>No data found</span>".html_safe
 
 = content_for :head do
   %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}

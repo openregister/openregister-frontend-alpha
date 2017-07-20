@@ -1,7 +1,8 @@
 - content_for :page_title, "#{@register.name}"
 
-.grid-row
-  .column-two-thirds
-    %h1.heading-large Editing register
-    = render 'form'
-    = link_to 'Remove register', register_path(@register), method: :delete, data: { confirm: 'Are you sure?' }
+%main.container{role:'main', tabindex: "-1"}
+  .grid-row
+    .column-two-thirds
+      %h1.heading-large Editing register
+      = render 'form'
+      = link_to 'Remove register', register_path(@register), method: :delete, data: { confirm: 'Are you sure?' }

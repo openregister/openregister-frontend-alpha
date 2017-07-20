@@ -1,121 +1,125 @@
 = content_for :page_title, "Register"
 
-.breadcrumbs{"data-module" => "track-click"}
-  %ol
-    %li
-      = link_to "Service Toolkit", "https://www.gov.uk/service-toolkit", target: :blank
-    %li
-      = link_to "Registers", root_path
-    %li
-      #{prepare_register_name(params[:register])} register
+.container
+  .breadcrumbs{"data-module" => "track-click"}
+    %ol
+      %li
+        = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
+      %li
+        = link_to "GOV.UK Registers", root_path
+      %li
+        = link_to "View registers", root_path
+      %li.active
+        #{prepare_register_name(params[:register])} register
 
-%header.page-header
+%main.container{role:'main', tabindex: "-1"}
+  %header.page-header
 
-  - if params[:phase] != 'beta'
+    - if params[:phase] != 'beta'
+      .grid-row
+        .column-two-thirds
+          .panel.panel-border-wide.phase
+            %span.phase-tag In progress
+            %p This data is at an experimental stage and it’s not ready for use yet. #{link_to 'Contact the team', 'https://registers.cloudapps.digital/support', target: :blank} if you want to give us feedback.
+
     .grid-row
       .column-two-thirds
-        .panel.panel-border-wide.phase
-          %span.phase-tag In progress
-          %p This data is at an experimental stage and it’s not ready for use yet. #{link_to 'Contact the team', 'https://registers.cloudapps.digital/support', target: :blank} if you want to give us feedback.
+        %h1.heading-xlarge.register-name #{prepare_register_name(params[:register])} register
 
-  .grid-row
-    .column-two-thirds
-      %h1.heading-xlarge.register-name #{prepare_register_name(params[:register])} register
+        %dl
+          %dt Updated on:
+          %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
+          %dt Owner:
+          %dd= @register_meta_data['custodian']
 
-      %dl
-        %dt Updated on:
-        %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
-        %dt Owner:
-        %dd= @register_meta_data['custodian']
+        %p= @register_meta_data['register-record']['text']
 
-      %p= @register_meta_data['register-record']['text']
+        %details{:role => "group"}
+          %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+            %span.summary Use this list to build your service
+          #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+            %p This list is a register. Using registers to build your service means you and your service users will only ever work with one reliable and current source of data.
 
-      %details{:role => "group"}
-        %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-          %span.summary Use this list to build your service
-        #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-          %p This list is a register. Using registers to build your service means you and your service users will only ever work with one reliable and current source of data.
+            %p
+              = link_to "Using registers", "https://registers.cloudapps.digital/using-registers"
+              %br
+              = link_to "Technical documentation", "https://registers-docs.cloudapps.digital/#technical-user-documentation-for-registers"
 
-          %p
-            = link_to "Using registers", "https://registers.cloudapps.digital/using-registers"
-            %br
-            = link_to "Technical documentation", "https://registers-docs.cloudapps.digital/#technical-user-documentation-for-registers"
+        %details{:role => "group"}
+          %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+            %span.summary What are registers?
+          #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+            %p Registers are lists of information, each register is the most reliable list of its kind.
 
-      %details{:role => "group"}
-        %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-          %span.summary What are registers?
-        #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-          %p Registers are lists of information, each register is the most reliable list of its kind.
+            %p Some registers can be combined with other registers to provide more information.
 
-          %p Some registers can be combined with other registers to provide more information.
+            %p
+              = link_to "Using registers", "https://registers.cloudapps.digital/using-registers", target: :blank
+              %br
+              = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
 
-          %p
-            = link_to "Using registers", "https://registers.cloudapps.digital/using-registers", target: :blank
-            %br
+      .column-one-third.about
+        %h2.heading-small Managed by
+        %div{class: "govuk-organisation-logo #{@register_meta_data['register-record']['registry']}"}
+          %div{class: "logo-container #{crest_class_name(@register_meta_data['register-record']['registry'].parameterize)}"}
+            %span= prepare_register_name(@register_meta_data['register-record']['registry'])
+
+        %h2.heading-small Learn more
+        %ul
+          %li
             = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
+          %li
+            = link_to "Create a register", "https://www.gov.uk/guidance/creating-a-register", target: :blank
+          %li
+            = link_to "Contact the team", "https://registers.cloudapps.digital/support", target: :blank
 
-    .column-one-third.about
-      %h2.heading-small Managed by
-      %div{class: "govuk-organisation-logo #{@register_meta_data['register-record']['registry']}"}
-        %div{class: "logo-container #{crest_class_name(@register_meta_data['register-record']['registry'].parameterize)}"}
-          %span= prepare_register_name(@register_meta_data['register-record']['registry'])
+  .search-wrapper
+    .grid-row
+      .column-one-third.js-enabled
+        %div
+          %form
+            %fieldset
+              .form-group
+                = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
+                = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
 
-      %h2.heading-small Learn more
-      %ul
-        %li
-          = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
-        %li
-          = link_to "Create a register", "https://www.gov.uk/guidance/creating-a-register", target: :blank
-        %li
-          = link_to "Contact the team", "https://registers.cloudapps.digital/support", target: :blank
+      .column-one-third.js-enabled
+        %div{class: "js-filter-list", "aria-hidden" => "true"}
+          %form.js-filter-form
+            %fieldset
+              .form-group
+                %label{class: "form-label", for: "search"} Search for a #{params[:register]}
+                %input{name: "search", id: "search", class: "form-control"}
 
-.search-wrapper
-  .grid-row
-    .column-one-third.js-enabled
-      %div
-        %form
-          %fieldset
-            .form-group
-              = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
-              = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
+    %h2.heading-large
+      = @records.count
+      = prepare_register_name(params[:register]).pluralize(@register_meta_data['total-records'])
 
-    .column-one-third.js-enabled
-      %div{class: "js-filter-list", "aria-hidden" => "true"}
-        %form.js-filter-form
-          %fieldset
-            .form-group
-              %label{class: "form-label", for: "search"} Search for a #{params[:register]}
-              %input{name: "search", id: "search", class: "form-control"}
+    %details{:role => "group"}
+      %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+        %span.summary Download this data
+      #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+        \#TODO
 
-  %h2.heading-large
-    = @records.count
-    = prepare_register_name(params[:register]).pluralize(@register_meta_data['total-records'])
+    %details{:role => "group"}
+      %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
+        %span.summary What are the table headers?
+      #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
+        %dl
+          - @register_meta_data['register-record']['fields'].each do |item|
+            - register_fields = @all_fields.select{ |field| field == item }
+            - register_fields.each do |field|
+              %dt= field[1]['key']
+              %dd= field[1]['item'][0]['text']
 
-  %details{:role => "group"}
-    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-      %span.summary Download this data
-    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-      \#TODO
+  %table.js-filter-block
+    %thead
+      %tr
+        - @register_meta_data['register-record']['fields'].each do |field|
+          %th= field
 
-  %details{:role => "group"}
-    %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-      %span.summary What are the table headers?
-    #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-      %dl
-        - @register_meta_data['register-record']['fields'].each do |item|
-          - register_fields = @all_fields.select{ |field| field == item }
-          - register_fields.each do |field|
-            %dt= field[1]['key']
-            %dd= field[1]['item'][0]['text']
-
-%table.js-filter-block
-  %thead
-    %tr
-      - @register_meta_data['register-record']['fields'].each do |field|
-        %th= field
-
-  %tbody
-    = render partial: 'record', collection: @records
+    %tbody
+      = render partial: 'record', collection: @records
 
 = content_for :head do
   %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}
