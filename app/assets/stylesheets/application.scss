@@ -1,6 +1,9 @@
 @import 'govuk-elements';
 @import 'header-tweaks';
 @import 'govuk-organisation-logo';
+@import 'product-page';
+@import 'entries';
+@import 'sorted-tables';
 
 // Override table font size
 table td,
@@ -9,37 +12,21 @@ table th {
   padding: 15px 40px 15px 0;
 
  .unknown {
-  color: $grey-2;
- }
+    color: $grey-2;
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  @extend %site-width-container;
 }
 
 // Override purple colour
 a:visited {
   color: $govuk-blue;
-}
-
-.browse-list {
-  margin-bottom: 30px;
-
-  &__item {
-    list-style: none;
-
-    @include media(tablet) {
-      margin-bottom: 5px
-    }
-  }
-
-  &__link {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-transform: none;
-
-     @include media(tablet) {
-      font-size: 24px;
-      line-height: 1.25;
-    }
-  }
 }
 
 dl {
@@ -64,10 +51,6 @@ dl {
     width: 78%;
 
   }
-}
-
-.breadcrumbs {
-  margin-bottom: 20px;
 }
 
 .register-name {
@@ -105,52 +88,6 @@ select.form-control {
 
 .panel.phase {
   margin-bottom: 40px;
-}
-
-.tablesorter-header {
-  .tablesorter-header-inner {
-    color: $govuk-blue;
-    font-weight: normal;
-    text-decoration: underline;
-  }
-
-  &.tablesorter-headerAsc,
-  &.tablesorter-headerDesc {
-    .tablesorter-header-inner {
-      display: inline-block;
-      font-weight: bold;
-      position: relative;
-      padding-right: 10px;
-
-      &:after {
-        content: "";
-        display: block;
-        height: 0;
-        line-height: 16px;
-        margin-left: 5px;
-        position: absolute;
-        right: 0;
-        top: 7px;
-        width: 0;
-      }
-    }
-  }
-
-  &.tablesorter-headerAsc {
-    .tablesorter-header-inner:after {
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 8px solid $govuk-blue;
-    }
-  }
-
-  &.tablesorter-headerDesc {
-    .tablesorter-header-inner:after {
-      border-bottom: 8px solid $govuk-blue;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-    }
-  }
 }
 
 // Register styles
@@ -443,38 +380,5 @@ $phases: (beta, #f47738),
 
   .error-message {
     padding-bottom: 4px;
-  }
-}
-
-.entries {
-  border-left: 10px solid $grey-3;
-  list-style-type: none;
-  padding-left: 30px;
-
-  &__item {
-    position: relative;
-    padding: 20px 0;
-
-    &:before {
-      background-color: $grey-3;
-      content: "";
-      display: block;
-      height: 10px;
-      left: -30px;
-      position: absolute;
-      width: 10px;
-    }
-  }
-
-  &__date {
-    color: $grey-1;
-    display: block;
-    font-size: 16px;
-    line-height: 1;
-    margin-bottom: 20px;
-  }
-
-  .heading-medium {
-    margin-top: 0;
   }
 }
