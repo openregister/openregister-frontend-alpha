@@ -6,17 +6,15 @@
 
 - content_for :header_class, "with-proposition"
 
+- content_for :inside_header do
+  %strong.phase-badge Beta
+
 - content_for :head do
   = stylesheet_link_tag 'application'
   = csrf_meta_tags
 
 - content_for :content do
-  %main#content{role:'main', tabindex: "-1"}
-    .phase-banner
-      %p
-        %strong.phase-tag BETA
-        %span This is a new service – your #{link_to 'feedback', '#'} will help us to improve it.
-    = content_for?(:main) ? yield(:main) : yield
+  = content_for?(:main) ? yield(:main) : yield
 
 - content_for :body_end do
   = javascript_include_tag 'application'
