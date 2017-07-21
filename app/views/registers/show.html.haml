@@ -12,7 +12,7 @@
       %li.active
         #{prepare_register_name(params[:register])} register
 
-%main.container{role:'main', tabindex: "-1"}
+%main.container{role:'main'}
   %header.page-header
 
     - if params[:phase] != 'beta'
