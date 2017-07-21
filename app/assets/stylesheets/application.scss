@@ -382,3 +382,16 @@ $phases: (beta, #f47738),
     padding-bottom: 4px;
   }
 }
+
+.inline-form {
+  display: inline-block;
+
+  input[type="submit"] {
+    background: none;
+    border: none;
+    color: $govuk-blue;
+    cursor: pointer;
+    text-decoration: underline;
+    -webkit-appearance: none;
+  }
+}

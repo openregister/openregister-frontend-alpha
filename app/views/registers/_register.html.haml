@@ -15,5 +15,7 @@
         %span= register.authority
   %td{class: "links", "data-title" => "View more: "}
     - unless register.phase == "Backlog"
-      = link_to "View register", "#{register.name.parameterize}?phase=#{register.phase.downcase}"
+      = form_tag "/#{register.name.parameterize}", method:"post", class: 'inline-form' do
+        = hidden_field_tag :phase, register.phase.parameterize
+        = submit_tag "View register"
     = link_to "View history", "https://registers.cloudapps.digital/registers/#{register.name.parameterize}", target: :blank

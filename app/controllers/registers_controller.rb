@@ -18,7 +18,10 @@ class RegistersController < ApplicationController
   end
 
   def show
-    @records = OpenRegister.register(params[:register], params[:phase].to_sym)._all_records
+    @register_name = params[:register]
+    @register_phase = params[:phase]
+
+    @records = OpenRegister.register(@register_name, @register_phase.to_sym)._all_records
 
     if params[:current] == 'true'
       @records = @records.select{ |x| x.end_date.blank? }
@@ -26,7 +29,7 @@ class RegistersController < ApplicationController
       @records = @records.select{ |x| x.end_date.present? }
     end
 
-    @register_meta_data = HTTParty.get("https://#{params[:register]}.#{params[:phase]}.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )
+    @register_meta_data = HTTParty.get("https://#{@register_name}.#{@register_phase}.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )
 
     @all_fields = HTTParty.get("https://field.register.gov.uk/records.json", headers: { 'Content-Type' => 'application/json' } )
   end
