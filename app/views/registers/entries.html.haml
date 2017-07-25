@@ -1,20 +1,19 @@
 = content_for :page_title, "Update history"
 
-.container
-  .breadcrumbs{"data-module" => "track-click"}
-    %ol
-      %li
-        = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
-      %li
-        = link_to "GOV.UK Registers", root_path
-      %li
-        = link_to "View registers", root_path
-      %li
-        = link_to "#{prepare_register_name(params[:register])} register", "/#{params[:register]}?phase=#{@register_meta_data['register-record']['phase']}"
-      %li.active
-        Entries
+.breadcrumbs{"data-module" => "track-click"}
+  %ol
+    %li
+      = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
+    %li
+      = link_to "GOV.UK Registers", root_path
+    %li
+      = link_to "View registers", root_path
+    %li
+      = link_to "#{prepare_register_name(params[:register])} register", "/#{params[:register]}?phase=#{@register_meta_data['register-record']['phase']}"
+    %li.active
+      Entries
 
-%main.container{role:'main'}
+%main#content{role:'main'}
   .grid-row
     .column-one-third
       %h1.heading-large Update history
@@ -25,27 +24,293 @@
               %label{class: "form-label", for: "search"} Search for a #{params[:register]}
               %input{name: "search", id: "search", class: "form-control"}
 
-  %ul.entries.js-filter-block
-    - @entries_with_items.each do |entry|
-      %li.entries__item.js-filter-item{"data-filter-terms" => entry[:key]}
-        %h3.heading-medium= entry[:key]
-        %table
-          %thead
-            %tr
-              %th Field
-              %th Old Value
-              %th New Value
-          %tbody
-            - @register_meta_data['register-record']['fields'].each do |field|
+  .grid-row
+    .column-full
+      %ul.entries.js-filter-block
+        %li.entries__item.js-filter-item{"data-filter-terms" => "The Gambia"}
+          %p.entries__date 15 May 2017
+          %h3.heading-medium The Gambia
+          %table
+            %thead
               %tr
-                %td= field
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td name
                 %td
-                  - if entry[:previous_item]
-                    = entry[:previous_item][field] || "<span class='unknown'>No data found</span>".html_safe
-                  - else
-                    = "<span class='unknown'>No data found</span>".html_safe
+                  Gambia,The
                 %td
-                  = entry[:current_item][field] || "<span class='unknown'>No data found</span>".html_safe
+                  The Gambia
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Czechia"}
+          %p.entries__date 20 May 2017
+          %h3.heading-medium Czechia
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td name
+                %td
+                  Czech Republic
+                %td
+                  Czechia
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Vatican City"}
+          %p.entries__date 20 May 2017
+          %h3.heading-medium Vatican City
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td official-name
+                %td
+                  The Vatican City
+                %td
+                  Vatican City State
+        %li.entries__item.js-filter-item{"data-filter-terms" => "The Bahamas"}
+          %p.entries__date 20 May 2017
+          %h3.heading-medium The Bahamas
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td name
+                %td
+                  Bahamas,The
+                %td
+                  The Bahamas
+        %li.entries__item.js-filter-item{"data-filter-terms" => "The Gambia"}
+          %p.entries__date 20 May 2017
+          %h3.heading-medium GM
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td name
+                %td
+                  Gambia,The
+                %td
+                  The Gambia
+              %tr
+                %td official-name
+                %td
+                  The Republic of the Gambia
+                %td
+                  The Islamic Republic of The Gambia
+        %li.entries__item.js-filter-item{"data-filter-terms" => "GM"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium GM
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td official-name
+                %td
+                  The Republic of the Gambia
+                %td
+                  The Islamic Republic of The Gambia
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Zimbabwe"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium Zimbabwe
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td country
+                %td
+                  %span.unknown No original data
+                %td
+                  ZW
+              %tr
+                %td name
+                %td
+                  %span.unknown No original data
+                %td
+                  Zimbabwe
+              %tr
+                %td official-name
+                %td
+                  %span.unknown No original data
+                %td
+                  The Republic of Zimbabwe
+              %tr
+                %td citizen-names
+                %td
+                  %span.unknown No original data
+                %td
+                  Zimbabwean
+              %tr
+                %td start-date
+                %td
+                  %span.unknown No original data
+                %td
+                  1980-04-18
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Zambia"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium Zambia
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td country
+                %td
+                  %span.unknown No original data
+                %td
+                  ZM
+              %tr
+                %td name
+                %td
+                  %span.unknown No original data
+                %td
+                  Zambia
+              %tr
+                %td official-name
+                %td
+                  %span.unknown No original data
+                %td
+                  The Republic of Zambia
+              %tr
+                %td citizen-names
+                %td
+                  %span.unknown No original data
+                %td
+                  Zambian
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Yemen"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium Yemen
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td country
+                %td
+                  %span.unknown No original data
+                %td
+                  YE
+              %tr
+                %td name
+                %td
+                  %span.unknown No original data
+                %td
+                  Yemen
+              %tr
+                %td official-name
+                %td
+                  %span.unknown No original data
+                %td
+                  The Republic of Yemen
+              %tr
+                %td citizen-names
+                %td
+                  %span.unknown No original data
+                %td
+                  Yemeni
+              %tr
+                %td start-date
+                %td
+                  %span.unknown No original data
+                %td
+                  1990-05-22
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Vietnam"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium Vietnam
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td country
+                %td
+                  %span.unknown No original data
+                %td
+                  VN
+              %tr
+                %td name
+                %td
+                  %span.unknown No original data
+                %td
+                  Vietnam
+              %tr
+                %td official-name
+                %td
+                  %span.unknown No original data
+                %td
+                  The Socialist Republic of Vietnam
+              %tr
+                %td citizen-names
+                %td
+                  %span.unknown No original data
+                %td
+                  Vietnamese
+        %li.entries__item.js-filter-item{"data-filter-terms" => "Venezuela"}
+          %p.entries__date 10 May 2017
+          %h3.heading-medium Venezuela
+          %table
+            %thead
+              %tr
+                %th Field
+                %th Old Value
+                %th New Value
+            %tbody
+              %tr
+                %td country
+                %td
+                  %span.unknown No original data
+                %td
+                  VE
+              %tr
+                %td name
+                %td
+                  %span.unknown No original data
+                %td
+                  Venezuela
+              %tr
+                %td official-name
+                %td
+                  %span.unknown No original data
+                %td
+                  The Bolivarian Republic of Venezuela
+              %tr
+                %td citizen-names
+                %td
+                  %span.unknown No original data
+                %td
+                  Venezuelan
 
 = content_for :head do
   %script{src: "//code.jquery.com/jquery-3.2.1.min.js"}

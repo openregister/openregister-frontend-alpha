@@ -2,10 +2,15 @@
   #global-header-bar {
     display: none;
   }
+
+  .breadcrumbs {
+    margin-bottom: 20px;
+  }
 }
 
 .breadcrumbs {
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
+  max-width: 960px;
 
   &--inverse {
     border-bottom: 1px $white solid;

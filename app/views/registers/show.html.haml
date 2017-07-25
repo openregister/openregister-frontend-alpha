@@ -1,18 +1,17 @@
 = content_for :page_title, "Register"
 
-.container
-  .breadcrumbs{"data-module" => "track-click"}
-    %ol
-      %li
-        = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
-      %li
-        = link_to "GOV.UK Registers", root_path
-      %li
-        = link_to "View registers", root_path
-      %li.active
-        #{prepare_register_name(params[:register])} register
+.breadcrumbs{"data-module" => "track-click"}
+  %ol
+    %li
+      = link_to "Components", "https://www.gov.uk/service-toolkit", target: :blank
+    %li
+      = link_to "GOV.UK Registers", root_path
+    %li
+      = link_to "View registers", registers_path
+    %li.active
+      #{prepare_register_name(params[:register])} register
 
-%main.container{role:'main'}
+%main#content{role:'main'}
   %header.page-header
 
     - if params[:phase] != 'beta'
@@ -26,11 +25,14 @@
       .column-two-thirds
         %h1.heading-xlarge.register-name #{prepare_register_name(params[:register])} register
 
-        %dl
-          %dt Updated on:
-          %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
-          %dt Owner:
-          %dd= @register_meta_data['custodian']
+        .govuk-metadata
+          %dl
+            - if @register_meta_data['last-updated'].present?
+              %dt Updated on:
+              %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
+            - if @register_meta_data['custodian'].present?
+              %dt Owner:
+              %dd= @register_meta_data['custodian']
 
         %p= @register_meta_data['register-record']['text']
 
@@ -77,18 +79,16 @@
 
   .search-wrapper
     .grid-row
-      .column-one-third.js-enabled
-        %div
+      .column-full
+        .form-group-wrapper.js-enabled
           %form
-            %fieldset
-              .form-group
-                = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
-                = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
+            .form-group
+              = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
+              = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
 
-      .column-one-third.js-enabled
-        %div{class: "js-filter-list", "aria-hidden" => "true"}
-          %form.js-filter-form
-            %fieldset
+        .form-group-wrapper.js-enabled
+          %div{class: "js-filter-list", "aria-hidden" => "true"}
+            %form.js-filter-form
               .form-group
                 %label{class: "form-label", for: "search"} Search for a #{params[:register]}
                 %input{name: "search", id: "search", class: "form-control"}
@@ -101,7 +101,16 @@
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
         %span.summary Download this data
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-        \#TODO
+        %p Download as:
+        %ul
+          %li= link_to 'TSV', '#'
+          %li= link_to 'CSV', '#'
+          %li= link_to 'Spreadsheet', '#'
+        %p View as:
+        %ul
+          %li= link_to 'JSON', '#'
+          %li= link_to 'YAML', '#'
+          %li= link_to 'TTL', '#'
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -114,7 +123,7 @@
               %dt= field[1]['key']
               %dd= field[1]['item'][0]['text']
 
-  %table.js-filter-block
+  %table.js-filter-block.register-data-table
     %thead
       %tr
         - @register_meta_data['register-record']['fields'].each do |field|
