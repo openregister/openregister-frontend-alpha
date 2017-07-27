@@ -20,13 +20,16 @@ class RegistersController < ApplicationController
   def show
     @register_name = params[:register]
     @register_phase = params[:phase]
+    @register_records = OpenRegister.register(@register_name, @register_phase.to_sym)._all_records
 
-    @records = OpenRegister.register(@register_name, @register_phase.to_sym)._all_records
+    @records = @register_records.select{ |x| x.end_date.blank? }
 
     if params[:current] == 'true'
-      @records = @records.select{ |x| x.end_date.blank? }
+      @records = @register_records.select{ |x| x.end_date.blank? }
     elsif params[:current] == 'false'
-      @records = @records.select{ |x| x.end_date.present? }
+      @records = @register_records.select{ |x| x.end_date.present? }
+    elsif params[:current] == 'all'
+      @records = @register_records
     end
 
     @register_meta_data = HTTParty.get("https://#{@register_name}.#{@register_phase}.openregister.org/register.json", headers: { 'Content-Type' => 'application/json' } )

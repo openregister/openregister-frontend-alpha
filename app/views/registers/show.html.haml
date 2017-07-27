@@ -7,7 +7,7 @@
     %li
       = link_to "GOV.UK Registers", root_path
     %li
-      = link_to "View registers", registers_path
+      = link_to "Register’s collection", registers_path
     %li.active
       #{prepare_register_name(params[:register])} register
 
@@ -19,7 +19,7 @@
         .column-two-thirds
           .panel.panel-border-wide.phase
             %span.phase-tag In progress
-            %p This data is at an experimental stage and it’s not ready for use yet. #{link_to 'Contact the team', 'https://registers.cloudapps.digital/support', target: :blank} if you want to give us feedback.
+            %p This data is in progress and it’s not ready for use. #{link_to 'Contact the team', 'https://registers.cloudapps.digital/support', target: :blank} to give us feedback.
 
     .grid-row
       .column-two-thirds
@@ -28,37 +28,34 @@
         .govuk-metadata
           %dl
             - if @register_meta_data['last-updated'].present?
-              %dt Updated on:
+              %dt Updated:
               %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
             - if @register_meta_data['custodian'].present?
-              %dt Owner:
+              %dt Custodian:
               %dd= @register_meta_data['custodian']
 
         %p= @register_meta_data['register-record']['text']
 
         %details{:role => "group"}
           %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-            %span.summary Use this list to build your service
+            %span.summary What are Registers?
           #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-            %p This list is a register. Using registers to build your service means you and your service users will only ever work with one reliable and current source of data.
+            %p Registers are reliable lists of information managed by one custodian from the government organisation responsible for maintaining the Register’s data.
+            %p You can easily combine data from some Registers with data from another Register to build your service. For example, this Register can be combined with the #{link_to 'Territory Register', '/territory?phase=beta'}</a>.
 
             %p
-              = link_to "Using registers", "https://registers.cloudapps.digital/using-registers"
+              = link_to "Using Registers", "https://registers.cloudapps.digital/using-registers"
               %br
-              = link_to "Technical documentation", "https://registers-docs.cloudapps.digital/#technical-user-documentation-for-registers"
+              = link_to "Register's collection", "https://registers.cloudapps.digital/registers"
 
         %details{:role => "group"}
           %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-            %span.summary What are registers?
+            %span.summary How do I use a Register in my service?
           #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-            %p Registers are lists of information, each register is the most reliable list of its kind.
-
-            %p Some registers can be combined with other registers to provide more information.
-
-            %p
-              = link_to "Using registers", "https://registers.cloudapps.digital/using-registers", target: :blank
-              %br
-              = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
+            %p There are 2 ways to use Registers. You can either:
+            %ul.list-bullet
+              %li use an #{link_to "application programming interface", "https://registers-docs.cloudapps.digital/#api-documentation-for-registers"} (API) to automatically pull data from a register into your service
+              %li download the data for this Register and keep your own copy up-to-date
 
       .column-one-third.about
         %h2.heading-small Managed by
@@ -66,10 +63,10 @@
           %div{class: "logo-container #{crest_class_name(@register_meta_data['register-record']['registry'].parameterize)}"}
             %span= prepare_register_name(@register_meta_data['register-record']['registry'])
 
-        %h2.heading-small Learn more
+        %h2.heading-small Find out more
         %ul
           %li
-            = link_to "Update history", "#{params[:register]}/entries"
+            = link_to "Register updates", "#{params[:register]}/entries"
           %li
             = link_to "Technical documentation", "https://registers-docs.cloudapps.digital", target: :blank
           %li
@@ -84,37 +81,38 @@
           %form
             .form-group
               = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
-              = select_tag "filter_results", options_for_select([['All', 'all'], ['Currently active', 'true'], ['Expired', 'false']], selected: params[:current]), class: "form-control"
+              = select_tag "filter_results", options_for_select([['Current records', 'true'], ['Expired records', 'false'], ['Current and expired records', 'all']], selected: params[:current]), class: "form-control"
 
         .form-group-wrapper.js-enabled
           %div{class: "js-filter-list", "aria-hidden" => "true"}
             %form.js-filter-form
               .form-group
-                %label{class: "form-label", for: "search"} Search for a #{params[:register]}
+                %label{class: "form-label", for: "search"} Search for a record
                 %input{name: "search", id: "search", class: "form-control"}
 
     %h2.heading-large
       = @records.count
-      = prepare_register_name(params[:register]).pluralize(@register_meta_data['total-records'])
+      records
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
         %span.summary Download this data
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-        %p Download as:
-        %ul
-          %li= link_to 'TSV', '#'
-          %li= link_to 'CSV', '#'
-          %li= link_to 'Spreadsheet', '#'
         %p View as:
         %ul
           %li= link_to 'JSON', '#'
           %li= link_to 'YAML', '#'
           %li= link_to 'TTL', '#'
+        %p Download as:
+        %ul
+          %li= link_to 'TSV', '#'
+          %li= link_to 'CSV', '#'
+          %li= link_to 'Spreadsheet', '#'
+        %p Note: the spreadsheet formatting may affect any special characters contained in the data.
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-        %span.summary What are the table headers?
+        %span.summary What are the column headings?
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
         %dl
           - @register_meta_data['register-record']['fields'].each do |item|

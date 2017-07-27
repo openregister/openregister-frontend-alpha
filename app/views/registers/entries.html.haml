@@ -7,7 +7,7 @@
     %li
       = link_to "GOV.UK Registers", root_path
     %li
-      = link_to "View registers", root_path
+      = link_to "Register’s collection", root_path
     %li
       = link_to "#{prepare_register_name(params[:register])} register", "/#{params[:register]}?phase=#{@register_meta_data['register-record']['phase']}"
     %li.active
@@ -16,7 +16,7 @@
 %main#content{role:'main'}
   .grid-row
     .column-one-third
-      %h1.heading-large Update history
+      %h1.heading-large Register updates
       %div{class: "js-filter-list", "aria-hidden" => "true"}
         %form.js-filter-form
           %fieldset
