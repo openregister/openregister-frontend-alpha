@@ -27,14 +27,14 @@
 
         .govuk-metadata
           %dl
-            - if @register_meta_data['last-updated'].present?
+            - if @register_metadata[:last_updated].present?
               %dt Updated:
-              %dd= DateTime.parse(@register_meta_data['last-updated']).strftime('%d/%m/%Y')
-            - if @register_meta_data['custodian'].present?
+              %dd= DateTime.parse(@register_metadata[:last_updated]).strftime('%d/%m/%Y')
+            - if @register_metadata[:custodian].present?
               %dt Custodian:
-              %dd= @register_meta_data['custodian']
+              %dd= @register_metadata[:custodian][:item]['custodian']
 
-        %p= @register_meta_data['register-record']['text']
+        %p= @register_metadata[:register_definition][:item]['text']
 
         %details{:role => "group"}
           %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -59,9 +59,9 @@
 
       .column-one-third.about
         %h2.heading-small Managed by
-        %div{class: "govuk-organisation-logo #{@register_meta_data['register-record']['registry']}"}
-          %div{class: "logo-container #{crest_class_name(@register_meta_data['register-record']['registry'].parameterize)}"}
-            %span= prepare_register_name(@register_meta_data['register-record']['registry'])
+        %div{class: "govuk-organisation-logo #{@register_metadata[:register_definition][:item]['registry']}"}
+          %div{class: "logo-container #{crest_class_name(@register_metadata[:register_definition][:item]['registry'].parameterize)}"}
+            %span= prepare_register_name(@register_metadata[:register_definition][:item]['registry'])
 
         %h2.heading-small Find out more
         %ul
@@ -115,17 +115,15 @@
         %span.summary What are the column headings?
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
         %dl
-          - @register_meta_data['register-record']['fields'].each do |item|
-            - register_fields = @all_fields.select{ |field| field == item }
-            - register_fields.each do |field|
-              %dt= field[1]['key']
-              %dd= field[1]['item'][0]['text']
+          - @register_metadata[:field_definitions].each do |field|
+            %dt= field[:item]['field']
+            %dd= field[:item]['text']
 
   %table.js-filter-block.register-data-table
     %thead
       %tr
-        - @register_meta_data['register-record']['fields'].each do |field|
-          %th= field
+        - @register_metadata[:field_definitions].each do |field|
+          %th= field[:item]['field']
 
     %tbody
       = render partial: 'record', collection: @records
