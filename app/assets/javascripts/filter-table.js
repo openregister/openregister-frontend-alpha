@@ -29,11 +29,13 @@
       e.preventDefault();
 
       var search = filter.$form.find('input').val(),
-          itemsToShow = filter.getItems(search);
+          itemsToShow = filter.getItems(search),
+          visibleRows = $(itemsToShow).length;
 
       filter.$filterItems.hide();
       $(itemsToShow).show();
       filter.hideEmptyBlocks(itemsToShow);
+      $('.register-count').html(visibleRows);
     },
 
     hideEmptyBlocks: function(itemsToShow){

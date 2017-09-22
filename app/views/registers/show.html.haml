@@ -30,9 +30,9 @@
             - if @register_metadata[:last_updated].present?
               %dt Updated:
               %dd= DateTime.parse(@register_metadata[:last_updated]).strftime('%d/%m/%Y')
-            - if @register_metadata[:custodian].present?
-              %dt Custodian:
-              %dd= @register_metadata[:custodian][:item]['custodian']
+            - if @register_metadata[:register_definition][:item]['registry'].present?
+              %dt Managed by:
+              %dd= prepare_register_name(@register_metadata[:register_definition][:item]['registry'])
 
         %p= @register_metadata[:register_definition][:item]['text']
 
@@ -41,8 +41,6 @@
             %span.summary What are Registers?
           #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
             %p Registers are reliable lists of information managed by one custodian from the government organisation responsible for maintaining the Register’s data.
-            %p You can easily combine data from some Registers with data from another Register to build your service. For example, this Register can be combined with the #{link_to 'Territory Register', '/territory?phase=beta'}</a>.
-
             %p
               = link_to "Using Registers", "https://registers.cloudapps.digital/using-registers"
               %br
@@ -58,11 +56,6 @@
               %li download the data for this Register and keep your own copy up-to-date
 
       .column-one-third.about
-        %h2.heading-small Managed by
-        %div{class: "govuk-organisation-logo #{@register_metadata[:register_definition][:item]['registry']}"}
-          %div{class: "logo-container #{crest_class_name(@register_metadata[:register_definition][:item]['registry'].parameterize)}"}
-            %span= prepare_register_name(@register_metadata[:register_definition][:item]['registry'])
-
         %h2.heading-small Find out more
         %ul
           %li
@@ -91,24 +84,16 @@
                 %input{name: "search", id: "search", class: "form-control"}
 
     %h2.heading-large
-      = @records.count
+      %span.register-count
+        = @records.count
       records
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
         %span.summary Download this data
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-        %p View as:
-        %ul
-          %li= link_to 'JSON', '#'
-          %li= link_to 'YAML', '#'
-          %li= link_to 'TTL', '#'
-        %p Download as:
-        %ul
-          %li= link_to 'TSV', '#'
-          %li= link_to 'CSV', '#'
-          %li= link_to 'Spreadsheet', '#'
-        %p Note: the spreadsheet formatting may affect any special characters contained in the data.
+        %p Download this data as: #{link_to 'TSV', '#'}, #{link_to 'CSV', '#'} or as a #{link_to 'Spreadsheet', '#'}
+        %p Preview a sample as #{link_to 'JSON', '#'}, #{link_to 'YAML', '#'} or #{link_to 'TTL', '#'}
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
