@@ -32,7 +32,7 @@
               %dd= DateTime.parse(@register_metadata[:last_updated]).strftime('%d/%m/%Y')
             - if @register_metadata[:register_definition][:item]['registry'].present?
               %dt Managed by:
-              %dd= link_to "Ministry of Justice", "https://www.gov.uk/government/organisations/ministry-of-justice"
+              %dd= link_to prepare_register_name(@register_metadata[:register_definition][:item]['registry']), "https://www.gov.uk/government/organisations/#{@register_metadata[:register_definition][:item]['registry']}", target: :blank
 
         %p= @register_metadata[:register_definition][:item]['text']
 
