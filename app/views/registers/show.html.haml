@@ -32,7 +32,7 @@
               %dd= DateTime.parse(@register_metadata[:last_updated]).strftime('%d/%m/%Y')
             - if @register_metadata[:register_definition][:item]['registry'].present?
               %dt Managed by:
-              %dd= prepare_register_name(@register_metadata[:register_definition][:item]['registry'])
+              %dd= link_to "Ministry of Justice", "https://www.gov.uk/government/organisations/ministry-of-justice"
 
         %p= @register_metadata[:register_definition][:item]['text']
 
@@ -44,7 +44,7 @@
             %p
               = link_to "Using Registers", "https://registers.cloudapps.digital/using-registers"
               %br
-              = link_to "Register's collection", "https://registers.cloudapps.digital/registers"
+              = link_to "Registers collection", "https://registers.cloudapps.digital/registers"
 
         %details{:role => "group"}
           %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -74,7 +74,7 @@
           %form
             .form-group
               = label_tag 'Filter by', nil, class: 'form-label', for: 'search'
-              = select_tag "filter_results", options_for_select([['Current records', 'true'], ['Expired records', 'false'], ['Current and expired records', 'all']], selected: params[:current]), class: "form-control"
+              = select_tag "filter_results", options_for_select([['Existing records', 'true'], ['Closed records', 'false'], ['Existing and closed records', 'all']], selected: params[:current]), class: "form-control"
 
         .form-group-wrapper.js-enabled
           %div{class: "js-filter-list", "aria-hidden" => "true"}
@@ -90,10 +90,10 @@
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
-        %span.summary Download this data
+        %span.summary Get a copy this data
       #details-content-0.panel.panel-border-narrow{"aria-hidden" => "true"}
-        %p Download this data as: #{link_to 'TSV', '#'}, #{link_to 'CSV', '#'} or as a #{link_to 'Spreadsheet', '#'}
-        %p Preview a sample as #{link_to 'JSON', '#'}, #{link_to 'YAML', '#'} or #{link_to 'TTL', '#'}
+        %p Download this data as: #{link_to 'TSV', '#'}, #{link_to 'CSV', '#'} or as a #{link_to 'Spreadsheet', '#'}.
+        %p Preview a sample as #{link_to 'JSON', '#'}, #{link_to 'YAML', '#'} or #{link_to 'TTL', '#'}.
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
