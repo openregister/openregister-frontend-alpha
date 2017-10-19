@@ -114,7 +114,7 @@ class RegistersController < ApplicationController
 
   def initialize_client
       @@registers_client ||= OpenRegister::RegistersClient.new({
-        cache_duration: 60
+        cache_duration: Rails.configuration.x.registers_client.cache_time
       })
   end
 

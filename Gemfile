@@ -17,8 +17,9 @@ gem 'haml-rails'
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 gem 'govuk_elements_rails'
-gem 'openregister-ruby', git: 'https://github.com/openregister/openregister-ruby-client', :tag => 'v0.1.0'
+gem 'openregister-ruby', path: '~/git/openregister-ruby-client', :tag => 'v0.1.0'
 gem 'httparty'
+gem 'mini_cache'
 
 group :development do
   gem 'pry-byebug'
