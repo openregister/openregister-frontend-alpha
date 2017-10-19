@@ -15,7 +15,7 @@ class RegistersController < ApplicationController
   end
 
   def entries
-    register = @registers_client.get_register(params[:register], 'beta')
+    register = @@registers_client.get_register(params[:register], 'beta')
 
     fields = register.get_field_definitions.map{|field| field[:item]['field']}
     all_records = register.get_records_with_history
@@ -51,7 +51,7 @@ class RegistersController < ApplicationController
     @register_name = params[:register]
     @register_phase = params[:phase]
 
-    register = @registers_client.get_register(@register_name, @register_phase)
+    register = @@registers_client.get_register(@register_name, @register_phase)
 
     @records = []
 
@@ -113,7 +113,9 @@ class RegistersController < ApplicationController
   private
 
   def initialize_client
-    @registers_client = OpenRegister::RegistersClient.new
+      @@registers_client ||= OpenRegister::RegistersClient.new({
+        cache_duration: 60
+      })
   end
 
   def register_params
