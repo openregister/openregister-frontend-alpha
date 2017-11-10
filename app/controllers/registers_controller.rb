@@ -50,6 +50,8 @@ class RegistersController < ApplicationController
   def show
     @register_name = params[:register]
     @register_phase = params[:phase]
+    @page = params[:page] ? params[:page].to_i : 1
+    @next_page = @page + 1
 
     register = @@registers_client.get_register(@register_name, @register_phase)
 
@@ -60,7 +62,8 @@ class RegistersController < ApplicationController
     elsif params[:current] == 'all'
       @records = register.get_records
     else
-      @records = register.get_current_records
+      @records_result = register.get_current_records @page
+      @records = @records_result[:data]
     end
 
     @register_metadata = {
@@ -71,6 +74,22 @@ class RegistersController < ApplicationController
     }
 
     @all_fields = HTTParty.get("https://field.register.gov.uk/records.json", headers: { 'Content-Type' => 'application/json' } )
+  end
+
+  def get_data
+    @register_name = params[:register]
+    @register_phase = params[:phase]
+    @page = params[:page] ? params[:page].to_i : 1
+    @text = params[:text] ? params[:text] : ''
+    @next_page = @page + 1
+
+    register = @@registers_client.get_register(@register_name, @register_phase)
+    @ajax_result = register.get_current_records(@page, @text)
+
+    respond_to do |format|
+      # format.json { render :json => @ajax_result.to_json }
+      format.json { render :partial => 'record', :collection => @ajax_result[:data]}
+    end
   end
 
   def new
@@ -113,7 +132,7 @@ class RegistersController < ApplicationController
   private
 
   def initialize_client
-    @@registers_client ||= OpenRegister::RegistersClient.new({ cache_duration: 3600 })
+    @@registers_client ||= RegistersClient::RegistersClientManager.new({ cache_duration: 600 })
   end
 
   def register_params

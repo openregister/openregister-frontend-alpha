@@ -8,6 +8,13 @@ GIT
       morph (~> 0.5.0)
       rest-client (~> 2)
 
+PATH
+  remote: /Users/karlbaker/work/registers-ruby-client
+  specs:
+    registers-ruby-client (0.1.0)
+      mini_cache (~> 1.1.0)
+      rest-client (~> 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -219,6 +226,7 @@ DEPENDENCIES
   pry-byebug
   puma (~> 3.7)
   rails (~> 5.1.1)
+  registers-ruby-client!
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -229,4 +237,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

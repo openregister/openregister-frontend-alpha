@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get '/:register', to: 'registers#show'
   post '/:register', to: 'registers#show'
   get '/:register/entries', to: 'registers#entries'
+  get '/:register/get_data', to: 'registers#get_data'
 end

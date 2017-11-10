@@ -18,6 +18,7 @@ gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 gem 'govuk_elements_rails'
 gem 'openregister-ruby', git: 'https://github.com/openregister/openregister-ruby-client', :tag => 'v0.2.1'
+gem 'registers-ruby-client', :path => '/Users/karlbaker/work/registers-ruby-client'
 gem 'httparty'
 
 group :development do

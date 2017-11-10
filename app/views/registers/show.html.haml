@@ -82,11 +82,21 @@
               .form-group
                 %label{class: "form-label", for: "search"} Search for a record
                 %input{name: "search", id: "search", class: "form-control"}
+                %input{name: "page", id: "page", type: "hidden", value: "#{@page}"}
+
+        .form-group-wrapper
+          %form
+            .form-group
+              = link_to "Search", "?phase=beta&page=#{@next_page}&text=#{@text}", {class: 'button'}
 
     %h2.heading-large
       %span.register-count
-        = @records.count
+        = @records_result[:total_results]
       records
+
+      - if @records_result[:more_results] == true
+        %p= link_to "Page #{@next_page}", "?phase=beta&page=#{@next_page}&text=#{@text}"
+
 
     %details{:role => "group"}
       %summary{"aria-controls" => "details-content-0", "aria-expanded" => "false", :role => "button"}
@@ -110,7 +120,7 @@
         - @register_metadata[:field_definitions].each do |field|
           %th= field[:item]['field']
 
-    %tbody
+    %tbody{id: "results_table"}
       = render partial: 'record', collection: @records
 
 = content_for :head do
@@ -119,24 +129,44 @@
 
 = content_for :javascript do
   :javascript
-    function replaceQueryString(url, param, value) {
-      var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
-      if (url.match(re))
-        return url.replace(re,'$1' + param + "=" + value + '$2');
-      else
-        return url + '&' + param + "=" + value;
-    }
+    // function replaceQueryString(url, param, value) {
+    //   var re = new RegExp("([?|&])" + param + "=.*?(&|$)","i");
+    //   if (url.match(re))
+    //     return url.replace(re,'$1' + param + "=" + value + '$2');
+    //   else
+    //     return url + '&' + param + "=" + value;
+    // }
 
     jQuery(function($) {
-      GOVUK.filterListItems.init();
-      $(".js-filter-block").tablesorter({ sortList: [[1,0]] });
+      $('#search').on('keyup', function() {
+        var searchText = $(this).val();
+        var url = "/country/get_data?phase=beta&page=#{@page}&text="+searchText;
+        // console.log('URL');
+        // console.log(url);
 
-      $("#filter_results").change(function () {
-        if(document.location.href.includes('current')) {
-          var url = replaceQueryString(window.location.href, 'current', this.value);
-        } else {
-          var url = document.location.href + "&current=" + this.value;
-        }
-        document.location = url;
+        $.get(url, function(data) {
+          console.log('Got Data');
+          console.log(data);
+
+          console.log('How many results?')
+
+          //$('#results_table').html("{escape_javascript(render partial: 'record', collection: @record_result[:data])}")
+          $('#results_table').html(data)
+
+        });
       });
     });
+
+    // jQuery(function($) {
+    //   GOVUK.filterListItems.init();
+    //   $(".js-filter-block").tablesorter({ sortList: [[1,0]] });
+    //
+    //   $("#filter_results").change(function () {
+    //     if(document.location.href.includes('current')) {
+    //       var url = replaceQueryString(window.location.href, 'current', this.value);
+    //     } else {
+    //       var url = document.location.href + "&current=" + this.value;
+    //     }
+    //     document.location = url;
+    //   });
+    // });
