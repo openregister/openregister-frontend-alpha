@@ -94,9 +94,11 @@
         = @records_result[:total_results]
       records
 
+      %p{id: "previous_page", class: "#{@page > 1 ? '' : 'hidden'}"}
+        = link_to "Previous Page (#{@records_result[:page] - 1})", "?phase=beta&page=#{@records_result[:page] - 1}&text=#{@text}"
       - if @records_result[:more_results] == true
         %p{id: "next_page"}
-          = link_to "Page #{@next_page}", "?phase=beta&page=#{@next_page}&text=#{@text}"
+          = link_to "Next Page (#{@records_result[:page] + 1})", "?phase=beta&page=#{@records_result[:page] + 1}&text=#{@text}"
 
 
     %details{:role => "group"}
@@ -154,7 +156,12 @@
           //$('#results_table').html("{escape_javascript(render partial: 'record', collection: @record_result[:data])}")
           $('#results_table').html(data.recordsTable);
           $('.register-count').text(results.total_results);
+          $('#next_page a').attr('href', 'http://test.com');
+          $('#next_page a').text('Page '+ results.page + 1);
 
+          if (results.page > 1) {
+            $('#previous_page').removeClass('hidden');
+          }
         });
       });
     });
