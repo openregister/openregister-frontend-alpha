@@ -79,25 +79,34 @@ class RegistersController < ApplicationController
   def get_data
     @register_name = params[:register]
     @register_phase = params[:phase]
-    @page = params[:page] ? params[:page].to_i : 1
-    @text = params[:text] ? params[:text] : ''
-    @next_page = @page + 1
-
     register = @@registers_client.get_register(@register_name, @register_phase)
 
+    # Necessary for rendering the _record partial view
     @register_metadata = {
         last_updated: register.get_entries.last[:timestamp],
         field_definitions: register.get_field_definitions,
         register_definition: register.get_register_definition,
         custodian: register.get_custodian
     }
+
+    @page = params[:page] ? params[:page].to_i : 1
+    @text = params[:text] ? params[:text] : ''
+    @next_page = @page + 1
+
     @ajax_result = register.get_current_records(@page, @text)
 
-    render partial: 'record', collection: @ajax_result[:data]
+    # render partial: 'record', collection: @ajax_result[:data]
+    recordsTable = (render_to_string(partial: 'record', collection: @ajax_result[:data]))
 
-    # respond_to do |format|
-    #   # format.json { render :json => @ajax_result.to_json }
-    # end
+    respond_to do |format|
+      format.json {
+        render :json =>
+        {
+          results: @ajax_result.to_json,
+          recordsTable: recordsTable
+        }
+      }
+    end
   end
 
   def new

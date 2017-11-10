@@ -95,7 +95,8 @@
       records
 
       - if @records_result[:more_results] == true
-        %p= link_to "Page #{@next_page}", "?phase=beta&page=#{@next_page}&text=#{@text}"
+        %p{id: "next_page"}
+          = link_to "Page #{@next_page}", "?phase=beta&page=#{@next_page}&text=#{@text}"
 
 
     %details{:role => "group"}
@@ -148,10 +149,11 @@
           console.log('Got Data');
           console.log(data);
 
-          console.log('How many results?')
+          results = JSON.parse(data.results);
 
           //$('#results_table').html("{escape_javascript(render partial: 'record', collection: @record_result[:data])}")
-          $('#results_table').html(data)
+          $('#results_table').html(data.recordsTable);
+          $('.register-count').text(results.total_results);
 
         });
       });
