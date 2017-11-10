@@ -84,12 +84,20 @@ class RegistersController < ApplicationController
     @next_page = @page + 1
 
     register = @@registers_client.get_register(@register_name, @register_phase)
+
+    @register_metadata = {
+        last_updated: register.get_entries.last[:timestamp],
+        field_definitions: register.get_field_definitions,
+        register_definition: register.get_register_definition,
+        custodian: register.get_custodian
+    }
     @ajax_result = register.get_current_records(@page, @text)
 
-    respond_to do |format|
-      # format.json { render :json => @ajax_result.to_json }
-      format.json { render :partial => 'record', :collection => @ajax_result[:data]}
-    end
+    render partial: 'record', collection: @ajax_result[:data]
+
+    # respond_to do |format|
+    #   # format.json { render :json => @ajax_result.to_json }
+    # end
   end
 
   def new
